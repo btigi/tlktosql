@@ -14,7 +14,7 @@ tlktosql dialog.tlk game
 
 ## Download
 
-You can [download](https://github.com/btigi/tlktosql/releases/) the latest installable version of tlktosql for Windows.
+You can [download](https://github.com/btigi/tlktosql/releases/) the latest version of tlktosql for Windows.
 
 
 ## Technologies
@@ -40,5 +40,5 @@ $ dotnet build
 
 ## License
 
-TlkToSql is licensed under []CC BY-NC 4.0] (https://creativecommons.org/licenses/by-nc/4.0/)
+TlkToSql is licensed under [CC BY-NC 4.0] (https://creativecommons.org/licenses/by-nc/4.0/)
  
