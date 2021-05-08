@@ -38,10 +38,10 @@ jobs:
 
           # Build and pack files - platform specific to workaround bash on windows requiring //
           if [ "${{ matrix.target }}" == "win-x64" ]; then
-            dotnet publish src/TlkToSql.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name" //p:PublishSingleFile=true //p:PublishTrimmed=true
+            dotnet publish src/TlkToSql.csproj --framework net5.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name" //p:PublishSingleFile=true //p:PublishTrimmed=true
             7z a -tzip "${release_name}.zip" "./${release_name}/*"
           else
-            dotnet publish src/TlkToSql.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name" /p:PublishSingleFile=true /p:PublishTrimmed=true
+            dotnet publish src/TlkToSql.csproj --framework net5.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name" /p:PublishSingleFile=true /p:PublishTrimmed=true
             tar czvf "${release_name}.tar.gz" "$release_name"
           fi
 
@@ -56,10 +56,10 @@ jobs:
 
           # Build and pack files - platform specific to workaround bash on windows requiring //
           if [ "${{ matrix.target }}" == "win-x64" ]; then
-            dotnet publish src/TlkToSql.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name_req_core" --self-contained false //p:PublishSingleFile=true
+            dotnet publish src/TlkToSql.csproj --framework net5.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name_req_core" --self-contained false //p:PublishSingleFile=true
             7z a -tzip "${release_name_req_core}.zip" "./${release_name_req_core}/*"
           else
-            dotnet publish src/TlkToSql.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name_req_core" --self-contained false /p:PublishSingleFile=true
+            dotnet publish src/TlkToSql.csproj --framework net5.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name_req_core" --self-contained false /p:PublishSingleFile=true
             tar czvf "${release_name_req_core}.tar.gz" "$release_name_req_core"
           fi
 
