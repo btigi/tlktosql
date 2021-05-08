@@ -1,0 +1,74 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    name: Release
+    strategy:
+      matrix:
+        kind: ['linux', 'windows', 'macOS']
+        include:
+          - kind: linux
+            os: ubuntu-latest
+            target: linux-x64
+          - kind: windows
+            os: windows-latest
+            target: win-x64
+          - kind: macOS
+            os: macos-latest
+            target: osx-x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Build
+        shell: bash
+        run: |
+          tag=$(git describe --tags --abbrev=0)
+          release_name="TlkToSql-$tag-${{ matrix.target }}"
+
+          # Build and pack files - platform specific to workaround bash on windows requiring //
+          if [ "${{ matrix.target }}" == "win-x64" ]; then
+            dotnet publish src/TlkToSql.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name" //p:PublishSingleFile=true //p:PublishTrimmed=true
+            7z a -tzip "${release_name}.zip" "./${release_name}/*"
+          else
+            dotnet publish src/TlkToSql.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name" /p:PublishSingleFile=true /p:PublishTrimmed=true
+            tar czvf "${release_name}.tar.gz" "$release_name"
+          fi
+
+          # Delete output directory
+          rm -r "$release_name"
+
+      - name: BuildReqCore
+        shell: bash
+        run: |
+          tag=$(git describe --tags --abbrev=0)
+          release_name_req_core="TlkToSql-req-core-$tag-${{ matrix.target }}"
+
+          # Build and pack files - platform specific to workaround bash on windows requiring //
+          if [ "${{ matrix.target }}" == "win-x64" ]; then
+            dotnet publish src/TlkToSql.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name_req_core" --self-contained false //p:PublishSingleFile=true
+            7z a -tzip "${release_name_req_core}.zip" "./${release_name_req_core}/*"
+          else
+            dotnet publish src/TlkToSql.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name_req_core" --self-contained false /p:PublishSingleFile=true
+            tar czvf "${release_name_req_core}.tar.gz" "$release_name_req_core"
+          fi
+
+          # Delete output directory
+          rm -r "$release_name_req_core"		  
+
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "TlkToSql*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
