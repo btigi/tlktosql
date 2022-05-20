@@ -1,3 +1,7 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/ehq7d1k01nqufdjs?svg=true)](https://ci.appveyor.com/project/igi/tlktosql)
+
+---
+
 # TlkToSql
 
 A command line utility to read string information from dialog.tlk files used Infinity Engine to an SQLite database
