@@ -2,6 +2,7 @@
 using System.IO;
 using TlkToSql.Model;
 using System;
+using System.Reflection.PortableExecutable;
 
 namespace TlkToSql
 {
@@ -43,9 +44,10 @@ namespace TlkToSql
                 for (int i = 0; i < header.StringCount; i++)
                 {
                     br.BaseStream.Seek(stringLocation, SeekOrigin.Begin);
-                    var stringEntry = br.ReadChars(stringDataEntries[i].StringLength);
+                    var stringEntry = br.ReadBytes(stringDataEntries[i].StringLength);
+                    var s = System.Text.Encoding.UTF8.GetString(stringEntry);
                     stringLocation += stringDataEntries[i].StringLength;
-                    stringEntries.Add(new string(stringEntry));
+                    stringEntries.Add(new string(s));
                 }
 
                 var tlk = new TlkFile

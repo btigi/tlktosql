@@ -42,6 +42,11 @@ $ dotnet build
 ```
 
 
+## Changes
+
+0.7 Adds support for non-English dialog files.
+ 
+
 ## License
 
 TlkToSql is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
