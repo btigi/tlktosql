@@ -8,7 +8,7 @@ namespace TlkToSql.Model
     [Serializable]
     public class DlgFile
     {
-        public short LangugeId;
-        public List<StringEntry> Strings = new List<StringEntry>();
+        public string CharacterName;
+        public List<StateEntry> States = new List<StateEntry>();
     }
 }

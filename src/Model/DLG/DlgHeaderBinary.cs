@@ -30,18 +30,19 @@ namespace TlkToSql.Model
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     struct DlgHeaderBinary
     {
-        public Array4 signature;
-        public Array4 version;
-        public int Number_Of_state;
-        public int Offset_of_state; // table from start of file;
-        public int Number_of_transitions;
-        public int Offset_of_transition; // table from start of file;
-        public int Offset_of_state_trigger; // table from start of file;
-        public int Number_of_state_triggers;
-        public int Offset_of_transition_trigger; //  table from start of file;
-        public int Number_of_transition_triggers;
-        public int Offset_of_action; // table from start of file;
-        public int Number_of_actions;
-        public int Flags; // Flags specifying what the creature does when the dialog is interrupted by a hostile action from a EA<GOODCUTOFF creature.
+                                                    // Order of variable is important
+        public Array4 signature;                    // Signature ('DLG ')
+        public Array4 version;                      // Version ('V1.0')
+        public int StateCount;                      // Number of states
+        public int StateOffset;                     // Offset of state table from start of file
+        public int TransitionCount;                 // Number of transitions
+        public int TransitionOffset;                // Offset of transition table from start of file
+        public int TriggerStateOffset;              // Offset of state trigger table from start of file
+        public int TriggerStateCount;               // Number of state triggers
+        public int Offset_of_transition_trigger;    // Offset of transition trigger table from start of file
+        public int Number_of_transition_triggers;   // Number of transition triggers
+        public int Offset_of_action;                // Offset of action table from start of file
+        public int Number_of_actions;               // Number of actions
+        public int Flags;                           // Flags specifying what the creature does when the dialog is interrupted by a hostile action from a EA<GOODCUTOFF creature.
     }
 }
