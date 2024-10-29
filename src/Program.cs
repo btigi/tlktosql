@@ -33,7 +33,7 @@ namespace TlkToSql
         static void ShowUsage()
         {
             Console.WriteLine("Usage:");
-            Console.WriteLine("  TlkToSql dialog.tlk game-name:");
+            Console.WriteLine("  TlkToSql dialog.tlk game-name");
         }
     }
 }

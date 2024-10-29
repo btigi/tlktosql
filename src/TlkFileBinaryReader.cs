@@ -2,7 +2,7 @@
 using System.IO;
 using TlkToSql.Model;
 using System;
-using System.Reflection.PortableExecutable;
+using System.Linq;
 
 namespace TlkToSql
 {
@@ -27,6 +27,8 @@ namespace TlkToSql
 
             private TlkFile ParseFile(BinaryReader br)
             {
+                var UTF7Languages = new[] { 3 };
+
                 var header = (TlkHeaderBinary)Common.ReadStruct(br, typeof(TlkHeaderBinary));
 
                 var stringDataEntries = new List<TlkEntryBinary>();
@@ -45,7 +47,9 @@ namespace TlkToSql
                 {
                     br.BaseStream.Seek(stringLocation, SeekOrigin.Begin);
                     var stringEntry = br.ReadBytes(stringDataEntries[i].StringLength);
-                    var s = System.Text.Encoding.UTF8.GetString(stringEntry);
+#pragma warning disable SYSLIB0001 // Type or member is obsolete
+                    var s = UTF7Languages.Contains(header.LanguageId) ? System.Text.Encoding.UTF7.GetString(stringEntry) : System.Text.Encoding.UTF8.GetString(stringEntry);
+#pragma warning restore SYSLIB0001 // Type or member is obsolete
                     stringLocation += stringDataEntries[i].StringLength;
                     stringEntries.Add(new string(s));
                 }
